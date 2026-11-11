@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>悲观主义 · 一部影像短片</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#FAF7F0;
+  --ink:#1C1A17;
+  --red:#A63A2E;
+  --blue:#2B4C7E;
+  --ochre:#B07A3C;
+  --yellow:#C9A227;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun","宋体",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",sans-serif;
+  --hand:"Ma Shan Zheng","Noto Serif SC","STKaiti","KaiTi","楷体",serif;
+}
+html,body{height:100%;overflow:hidden}
+body{background:#D9D0BF;color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+#viewport{position:fixed;inset:0;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 28%,#EFE9DD 0%,#E1D9C9 62%,#D6CCB8 100%)}
+
+#stage{position:absolute;left:50%;top:50%;margin:-450px 0 0 -800px;
+  width:1600px;height:900px;overflow:hidden;background:var(--paper);
+  transform-origin:center center;
+  box-shadow:0 2px 0 rgba(255,255,255,.5) inset,0 44px 120px -48px rgba(40,30,18,.55)}
+
+/* ---------- 纸面 ---------- */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E")}
+.vign{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(118% 104% at 50% 40%,rgba(0,0,0,0) 56%,rgba(64,48,30,.12) 100%)}
+.breath{position:absolute;inset:0;pointer-events:none;background:#6b4f2a;
+  animation:breathe 19s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.018}50%{opacity:.062}}
+
+/* ---------- 幕 ---------- */
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;--k:1;
+  transition:opacity .62s ease}
+.scene.in{opacity:1;visibility:visible}
+.scene.out .ln,.scene.out .hw .ch,.scene.out .quote:before{transition:none!important}
+#stage.paused .scene *,#stage.paused #turn .band{animation-play-state:paused!important}
+
+/* ---------- 色场：大面积压场，面积有主次 ---------- */
+.wash{position:absolute;inset:0;z-index:0;pointer-events:none;
+  clip-path:polygon(0 0,0 0,-16% 100%,-16% 100%);
+  transition:clip-path 1.15s cubic-bezier(.66,.01,.3,1) calc(.12s*var(--k,1))}
+.scene.in .wash{clip-path:polygon(0 0,116% 0,100% 100%,0 100%)}
+.wash.r{clip-path:polygon(100% 0,100% 0,116% 100%,100% 100%)}
+.scene.in .wash.r{clip-path:polygon(-16% 0,100% 0,100% 100%,-16% 100%)}
+.wash.d{clip-path:polygon(0 0,100% 0,100% 0,0 0)}
+.scene.in .wash.d{clip-path:polygon(0 0,100% 0,100% 108%,0 108%)}
+.wash.u{clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%)}
+.scene.in .wash.u{clip-path:polygon(0 -8%,100% -8%,100% 100%,0 100%)}
+.wash.blue{background:var(--blue)}
+.wash.red{background:var(--red)}
+.wash.ink{background:var(--ink)}
+.wash.ochre{background:var(--ochre)}
+.wash.yellow{background:var(--yellow)}
+.wash.mul{mix-blend-mode:multiply}
+
+/* ---------- 反白幕：整页靛蓝，墨线转白 ---------- */
+.scene.dark .runhead{color:rgba(250,247,240,.62);border-bottom-color:rgba(250,247,240,.3)}
+.scene.dark .eyebrow b{color:#E9A99B}
+.scene.dark .foot{color:rgba(250,247,240,.6)}
+.scene.dark .eyebrow{color:rgba(250,247,240,.72)}
+.scene.dark .title,.scene.dark .key,.scene.dark .lead{color:rgba(250,247,240,.96)}
+.scene.dark .fine{color:rgba(250,247,240,.7)}
+.scene.dark .lead b{color:#FAF7F0}
+.scene.dark .plate .s{stroke:rgba(250,247,240,.94)}
+.scene.dark .plate .s.thin{stroke:rgba(250,247,240,.72)}
+.scene.dark .plate .s.faint{stroke:rgba(250,247,240,.46)}
+.scene.dark .plate .sh{opacity:.24}
+.scene.dark .plate .s.red,.scene.dark .plate .s.swash{stroke:#E9A99B}
+.scene.dark .ghost{color:rgba(250,247,240,.1)}
+.scene.dark .bub{--ink:#1C1A17}
+.scene.dark .circ path,.scene.dark .fix{stroke:#E9A99B;color:#E9A99B}
+.scene.dark .circ.blue path{stroke:#FAF7F0}
+.scene.dark .strike{color:rgba(250,247,240,.5)}
+.scene.dark .strike:after{background:#E9A99B}
+.scene.dark .hl:before{background:rgba(201,162,39,.82)}
+
+/* ---------- 版面骨架 ---------- */
+.runhead{position:absolute;left:88px;right:88px;top:46px;display:flex;justify-content:space-between;
+  padding-bottom:12px;border-bottom:1.5px solid rgba(28,26,23,.22);
+  font-size:18px;letter-spacing:.24em;color:rgba(28,26,23,.54)}
+.foot{position:absolute;left:88px;right:88px;bottom:40px;display:flex;justify-content:space-between;
+  font-size:18px;letter-spacing:.2em;color:rgba(28,26,23,.54);font-variant-numeric:tabular-nums}
+
+.col{position:absolute;left:88px;top:118px;width:508px}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:18px;letter-spacing:.24em;color:rgba(28,26,23,.64)}
+.eyebrow b{color:var(--red);font-weight:500;letter-spacing:.06em;font-size:20px}
+.eyebrow i{display:block;width:44px;height:2px;background:rgba(28,26,23,.38)}
+
+.title{font-family:var(--serif);font-weight:500;font-size:96px;line-height:1.08;
+  letter-spacing:-.015em;margin-top:18px}
+.title.lg{font-size:108px;line-height:1.04}
+.lead{margin-top:26px;font-size:26px;line-height:1.74;color:rgba(28,26,23,.9);letter-spacing:.004em}
+.lead b{font-weight:600;color:var(--ink)}
+.fine{margin-top:16px;font-size:20px;line-height:1.78;letter-spacing:.02em;color:rgba(28,26,23,.62)}
+.key{margin-top:22px;font-family:var(--serif);font-size:36px;line-height:1.58;color:rgba(28,26,23,.94);
+  letter-spacing:.04em}
+.scene.in .key{letter-spacing:-.004em;transition:letter-spacing 1.5s cubic-bezier(.2,.7,.25,1) calc(var(--d,1.4s)*var(--k,1))}
+
+/* ---------- 引文块（书页边注） ---------- */
+.quote{margin-top:26px;padding-left:24px;position:relative}
+.quote:before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--red);
+  opacity:.9;transform:scaleY(0);transform-origin:top;
+  transition:transform 1.05s cubic-bezier(.3,.7,.25,1) calc(1.05s*var(--k,1))}
+.scene.in .quote:before{transform:scaleY(1)}
+.quote p{font-family:var(--serif);font-size:27px;line-height:1.62;color:rgba(28,26,23,.92)}
+.quote cite{display:block;margin-top:10px;font-style:normal;font-size:18px;
+  letter-spacing:.04em;color:rgba(28,26,23,.6)}
+
+/* ---------- 入场 ---------- */
+.ln{opacity:0;transform:translateY(15px);
+  transition:opacity .95s ease calc(var(--d,0s)*var(--k,1)),transform .95s cubic-bezier(.2,.7,.25,1) calc(var(--d,0s)*var(--k,1))}
+.scene.in .ln{opacity:1;transform:none}
+.hr{height:1px;background:rgba(28,26,23,.2);transform:scaleX(0);transform-origin:left;
+  transition:transform 1.1s cubic-bezier(.3,.7,.25,1) calc(var(--d,.9s)*var(--k,1))}
+.scene.in .hr{transform:scaleX(1)}
+.w120{width:120px;margin-top:30px}
+.w80{width:80px;margin-top:26px}
+
+/* ---------- 手写 ---------- */
+.hw-wrap{position:relative;display:block;width:max-content;max-width:100%;
+  font-family:var(--hand)}
+.hw{line-height:1.46;letter-spacing:.005em}
+.hw .ch{display:inline-block;clip-path:inset(0 100% 0 0);transform:translateY(.05em);filter:blur(1.7px);
+  transition-property:clip-path,transform,filter;
+  transition-duration:var(--dur,.24s),calc(var(--dur,.24s)*3),calc(var(--dur,.24s)*2.6);
+  transition-delay:calc(var(--dl,0s)*var(--k,1))}
+.scene.in .hw .ch{clip-path:inset(-15% -3% -15% -3%);transform:translateY(0);filter:blur(0)}
+
+.uline{position:absolute;left:-1.5%;bottom:-.02em;width:104%;height:.2em;overflow:visible}
+.uline path{fill:none;stroke:var(--red);stroke-width:2.2;stroke-linecap:round;opacity:.9;
+  stroke-dasharray:var(--len,100);stroke-dashoffset:var(--len,100);
+  transition:stroke-dashoffset 1.05s cubic-bezier(.34,.62,.3,1) calc(1.2s*var(--k,1))}
+.scene.in .uline path{stroke-dashoffset:0}
+
+.circ{position:relative;display:inline-block}
+.circ svg{position:absolute;left:50%;top:50%;width:2.34em;height:1.36em;
+  transform:translate(-50%,-52%);overflow:visible}
+.circ path{fill:none;stroke:var(--red);stroke-width:1.1;stroke-linecap:round;opacity:.82;
+  stroke-dasharray:var(--len,100);stroke-dashoffset:var(--len,100);
+  transition:stroke-dashoffset 1.15s cubic-bezier(.3,.68,.28,1) calc(1.3s*var(--k,1))}
+.scene.in .circ path{stroke-dashoffset:0}
+
+/* ---------- 插画 ---------- */
+.plate{position:absolute;left:620px;top:84px;width:880px;height:700px}
+.plate.wide{left:0;top:430px;width:1600px;height:440px}
+.plate svg{display:block;width:100%;height:100%;overflow:visible}
+.plate .s{fill:none;stroke:var(--ink);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);
+  transition:stroke-dashoffset var(--sd,.85s) cubic-bezier(.32,.6,.3,1) calc(var(--d,.2s)*var(--k,1))}
+.scene.in .plate .s{stroke-dashoffset:0}
+.plate .s.thin{stroke-width:1.15;opacity:.62;--sd:.6s}
+.plate .s.faint{stroke-width:1;opacity:.34;--sd:.6s}
+.plate .sh{stroke:none;opacity:0;transition:opacity 1.1s ease calc(var(--d,.9s)*var(--k,1))}
+.scene.in .plate .sh{opacity:.62}
+.scene.in .plate .sh.soft{opacity:.2}
+.plate .sh.hd{fill:url(#hd)}
+.plate .sh.hx{fill:url(#hx)}
+.plate .sh.hh{fill:url(#hh)}
+.plate .sh.paper{fill:var(--paper);opacity:0;transition:opacity .9s ease calc(var(--d,.9s)*var(--k,1))}
+.scene.in .plate .sh.paper{opacity:1}
+.plate .red{stroke:var(--red);opacity:.75}
+.plate .s.swash{stroke:var(--red);stroke-width:13;opacity:.9;stroke-linecap:round}
+.plate .s.swash.ink{stroke:var(--ink)}
+.plate .s.swash.blue{stroke:var(--blue)}
+.plate .s.swash.ochre{stroke:var(--ochre)}
+
+/* ---------- 套色版：色块逐版压上 ---------- */
+.plate g.cl{mix-blend-mode:multiply;
+  transform:translate(var(--ox,4.6px),var(--oy,-3.8px));
+  clip-path:polygon(0 0,0 0,-16% 100%,-16% 100%);
+  transition:clip-path var(--cw,1.2s) cubic-bezier(.66,.01,.3,1) calc(var(--cd,1s)*var(--k,1))}
+.scene.in .plate g.cl{clip-path:polygon(0 0,116% 0,100% 100%,0 100%)}
+.plate g.cl.r{clip-path:polygon(100% 0,100% 0,116% 100%,100% 100%)}
+.scene.in .plate g.cl.r{clip-path:polygon(-16% 0,100% 0,100% 100%,-16% 100%)}
+.plate g.cl.d{clip-path:polygon(0 0,100% 0,100% 0,0 0)}
+.scene.in .plate g.cl.d{clip-path:polygon(0 0,100% 0,100% 108%,0 108%)}
+.plate g.cl.u{clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%)}
+.scene.in .plate g.cl.u{clip-path:polygon(0 -8%,100% -8%,100% 100%,0 100%)}
+.plate g.cl.b2{--cd:2.05s;--ox:-5.2px;--oy:4.4px}
+.plate g.cl.b3{--cd:2.9s;--ox:3.6px;--oy:5.2px}
+
+/* ---------- 冲击镜头 ---------- */
+.shock{position:absolute;inset:0;z-index:32;opacity:0;pointer-events:none;
+  background:var(--red);display:flex;align-items:center;justify-content:center}
+.scene.in .shock{animation:shockIn var(--shk,6s) cubic-bezier(.4,0,.16,1) calc(var(--shkd,4s)*var(--k,1)) both}
+@keyframes shockIn{0%{opacity:0}4%{opacity:1}58%{opacity:1}63%{opacity:0}100%{opacity:0}}
+.shock .big{font-family:var(--serif);font-weight:600;color:var(--paper);
+  font-size:var(--bs,300px);line-height:.92;letter-spacing:-.045em;
+  text-shadow:0 0 1px rgba(0,0,0,.1);transform:scale(.94);
+  transition:transform 1.1s cubic-bezier(.2,.9,.2,1) calc(var(--shkd,4s)*var(--k,1))}
+.scene.in .shock .big{transform:scale(1.02)}
+.shock .sub{position:absolute;bottom:120px;left:0;right:0;text-align:center;
+  font-size:20px;letter-spacing:.26em;color:rgba(250,247,240,.86)}
+
+.blackout{position:absolute;inset:0;z-index:34;background:#0A0908;opacity:0;pointer-events:none}
+.scene.in .blackout{animation:blackout 5.2s ease calc(var(--bkd,3.2s)*var(--k,1)) both}
+@keyframes blackout{0%{opacity:0}9%{opacity:1}15%{opacity:1}23%{opacity:0}100%{opacity:0}}
+
+.splat{position:absolute;left:46%;top:46%;width:0;height:0;border-radius:50%;z-index:33;
+  transform:translate(-50%,-50%);opacity:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,#1C1A17 0 78%,rgba(28,26,23,.97) 85%,rgba(28,26,23,0) 91%)}
+.scene.in .splat{animation:splatGo 3.4s cubic-bezier(.45,.02,.7,.02) calc(var(--spd,3.4s)*var(--k,1)) both}
+@keyframes splatGo{
+  0%{width:0;height:0;opacity:0}
+  6%{width:110px;height:110px;opacity:.95}
+  54%{width:2320px;height:2320px;opacity:.95}
+  66%{width:2320px;height:2320px;opacity:0}
+  100%{width:0;height:0;opacity:0}}
+
+/* 年份刻字 */
+.yr{position:absolute;font-family:var(--serif);font-size:96px;line-height:1;letter-spacing:.02em;
+  color:var(--ink);opacity:.9}
+.yr span{display:inline-block;opacity:0;transform:translateY(-46px) scale(1.16)}
+.scene.in .yr span{animation:stamp .62s cubic-bezier(.2,1.5,.36,1) both;
+  animation-delay:calc((var(--yd,2s) + var(--i,0)*.11s)*var(--k,1))}
+@keyframes stamp{0%{opacity:0;transform:translateY(-46px) scale(1.16)}
+  62%{opacity:1;transform:translateY(4px) scale(.985)}
+  100%{opacity:1;transform:translateY(0) scale(1)}}
+
+/* 持续微动 */
+.glow{fill:url(#lampg);stroke:none;animation:glow 6.4s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:.95}}
+.cloud{animation:drift 34s linear infinite}
+@keyframes drift{0%{transform:translateX(0)}100%{transform:translateX(-26px)}}
+.eagle{transform-origin:0 0;animation:soar 17s linear infinite}
+@keyframes soar{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.fall{transform-box:fill-box;transform-origin:center;animation:drop 6.6s cubic-bezier(.55,0,.85,.62) infinite}
+@keyframes drop{0%,16%{transform:translate(0,0) rotate(0);opacity:1}
+  62%{transform:translate(-6px,128px) rotate(34deg);opacity:1}
+  76%{opacity:0}100%{transform:translate(0,0) rotate(0);opacity:0}}
+.roll{transform-box:fill-box;transform-origin:center;animation:roll 9s cubic-bezier(.5,.05,.7,.75) infinite}
+@keyframes roll{0%,7%{transform:translate(0,0) rotate(0);opacity:1}
+  38%{transform:translate(322px,-96px) rotate(-540deg);opacity:1}
+  45%{transform:translate(322px,-96px) rotate(-560deg);opacity:1}
+  45.5%{opacity:1}
+  80%{transform:translate(-344px,215px) rotate(520deg);opacity:1}
+  83%{opacity:0}
+  86%{transform:translate(0,0) rotate(0);opacity:0}
+  94%,100%{transform:translate(0,0) rotate(0);opacity:1}}
+.pend{transform-origin:0 0;animation:sway 4.6s ease-in-out infinite alternate}
+@keyframes sway{0%{transform:rotate(-6.5deg)}100%{transform:rotate(6.5deg)}}
+
+/* ---------- 收束幕 ---------- */
+.coda{position:absolute;left:0;right:0;top:126px;text-align:center}
+.coda h1{font-family:var(--serif);font-weight:500;font-size:120px;line-height:1.16;letter-spacing:-.01em}
+.coda h1 span{display:block}
+.coda .sub{margin-top:26px;padding:15px 0 17px;font-size:34px;line-height:1.5;letter-spacing:.04em;
+  color:var(--paper);background:var(--red)}
+.coda .tail{margin-top:12px;font-size:20px;line-height:1.4;letter-spacing:.1em;color:rgba(28,26,23,.62)}
+.coda .hr{margin:18px auto 0}
+.hr.red{background:var(--red);height:5px;opacity:.9;transform:rotate(-.5deg) scaleX(0);
+  transform-origin:center;border-radius:2px}
+.scene.in .hr.red{transform:rotate(-.5deg) scaleX(1)}
+
+/* ---------- 转场 ---------- */
+#turn{position:absolute;inset:-12%;pointer-events:none;z-index:40;opacity:0}
+#turn.go{opacity:1}
+#turn .band{position:absolute;inset:0;transform:skewX(-9deg) translateX(-118%);
+  background:linear-gradient(90deg,rgba(28,26,23,0) 0%,rgba(28,26,23,.03) 28%,
+    rgba(28,26,23,.085) 47%,rgba(28,26,23,.11) 52%,rgba(28,26,23,.04) 74%,rgba(28,26,23,0) 100%)}
+#turn.go .band{animation:turnGo 1s cubic-bezier(.45,.05,.4,1) both}
+@keyframes turnGo{0%{transform:skewX(-9deg) translateX(-118%)}100%{transform:skewX(-9deg) translateX(118%)}}
+
+/* ---------- HUD：只在页底留一道墨线 ---------- */
+.hud{position:absolute;inset:0;pointer-events:none;z-index:30}
+.inkline{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(28,26,23,.07)}
+.inkline .fill{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--red);
+  opacity:.8;transform:scaleX(0);transform-origin:left}
+.hint{position:absolute;left:0;right:0;bottom:44px;text-align:center;font-size:18px;letter-spacing:.18em;
+  color:rgba(28,26,23,.5);opacity:0;transition:opacity 1s ease}
+.hint.on{opacity:1}
+.sound{position:absolute;right:88px;bottom:70px;width:46px;height:46px;pointer-events:auto;
+  background:none;border:0;padding:0;cursor:pointer;color:#fff;mix-blend-mode:difference;
+  display:flex;align-items:center;justify-content:center}
+.sound:hover{opacity:.72}
+.sound svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.sound .off{display:none}
+.sound.mute .on{display:none}
+.sound.mute .off{display:block}
+
+/* ================= 强调手法 ================= */
+/* 手绘圈注：两笔叠压，粗细不均，首尾出头 */
+.circ svg{width:2.5em;height:1.42em}
+.circ path{stroke-width:2.6}
+.circ path.w1{stroke-width:3.6;opacity:.94}
+.circ path.w2{stroke-width:1.25;opacity:.5;transition-delay:calc(2.2s*var(--k,1))}
+.circ.soft path{stroke:var(--ink);opacity:.42}
+.circ.blue path{stroke:var(--blue)}
+
+/* 双笔下划线：略斜，不平行 */
+.uline{bottom:-.04em;height:.24em}
+.uline path{stroke-width:2.6}
+.uline path.b{stroke-width:1.5;opacity:.6}
+.asl{display:block;width:100%;height:14px;overflow:visible;margin-top:6px}
+.asl path{fill:none;stroke:var(--red);stroke-width:2.8;stroke-linecap:round;
+  stroke-dasharray:var(--len,100);stroke-dashoffset:var(--len,100);
+  transition:stroke-dashoffset 1.05s cubic-bezier(.34,.62,.3,1) calc(1.2s*var(--k,1))}
+.scene.in .asl path{stroke-dashoffset:0}
+.asl path.b{stroke-width:1.4;opacity:.55}
+
+/* 荧光块：像刷子刷过，边缘不齐 */
+.hl{position:relative;display:inline-block;padding:0 .12em .04em}
+.hl:before{content:"";position:absolute;left:-.06em;right:-.05em;top:.1em;bottom:.02em;z-index:-1;
+  background:rgba(201,162,39,.66);transform:rotate(-.9deg);
+  clip-path:polygon(0 9%,100% 0,98.5% 88%,2% 100%);mix-blend-mode:multiply}
+.hl.red:before{background:rgba(166,58,46,.5)}
+.hl.blue:before{background:rgba(43,76,126,.34)}
+
+/* 删改：划掉一个词，旁边写替换 */
+.strike{position:relative;color:rgba(28,26,23,.46)}
+.strike:after{content:"";position:absolute;left:-2%;right:-4%;top:50%;height:3.4px;background:var(--red);
+  transform:rotate(-1.7deg);opacity:.92;
+  clip-path:polygon(0 44%,100% 0,100% 58%,0 100%)}
+.fix{color:var(--red);font-weight:600;letter-spacing:.02em}
+.fix:before{content:"→";font-weight:400;margin:0 .18em 0 .06em;opacity:.7;font-size:.78em;
+  vertical-align:.06em}
+
+/* 字号跳级 */
+.jump{font-size:1.92em;line-height:.86;font-weight:600;letter-spacing:-.03em;
+  vertical-align:-.1em;margin:0 .04em}
+
+/* 艺术字：字内横向刻痕，像从木板上刻下来 */
+.art{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;
+  background-image:repeating-linear-gradient(0deg,var(--ink) 0 .062em,rgba(250,247,240,0) .062em .1em);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-stroke:1.3px var(--ink)}
+.art.red{background-image:repeating-linear-gradient(0deg,var(--red) 0 .062em,rgba(250,247,240,0) .062em .1em);
+  -webkit-text-stroke-color:var(--red)}
+
+/* 巨字压背景 */
+.ghost{position:absolute;font-family:var(--serif);font-weight:600;line-height:.78;
+  color:rgba(28,26,23,.06);letter-spacing:.05em;white-space:nowrap;pointer-events:none;
+  mix-blend-mode:multiply;user-select:none}
+.ghost.red{color:rgba(166,58,46,.1)}
+.ghost.blue{color:rgba(43,76,126,.1)}
+
+/* ================= 台词气泡 ================= */
+.bub{position:absolute;z-index:22;opacity:0;transform:scale(.78);transform-origin:var(--bo,6% 100%);
+  transition:opacity .5s ease calc(var(--bd,1.5s)*var(--k,1)),transform .82s cubic-bezier(.22,1.24,.4,1) calc(var(--bd,1.5s)*var(--k,1))}
+.scene.in .bub{opacity:1;transform:none}
+.bub .bk{position:absolute;inset:0;background:var(--paper);border:2.7px solid var(--ink);
+  filter:url(#rough);border-radius:22px 28px 20px 26px / 24px 20px 26px 22px}
+.bub .tx{position:relative;padding:26px 30px 28px}
+.bub p{font-family:var(--serif);font-size:27px;line-height:1.54;color:rgba(28,26,23,.96);
+  letter-spacing:.01em}
+.bub .bc{display:block;margin-top:12px;padding-top:9px;border-top:1.5px solid rgba(28,26,23,.4);
+  font-size:18px;line-height:1.45;letter-spacing:.01em;color:var(--red)}
+.bub .bt{position:absolute;overflow:visible;filter:url(#rough)}
+.bub .bt path{fill:var(--paper);stroke:var(--ink);stroke-width:2.7;stroke-linejoin:round}
+.bub.loud .bk{background:var(--red);border-color:var(--red)}
+.bub.loud p{color:var(--paper)}
+.bub.loud .bc{color:rgba(250,247,240,.9);border-top-color:rgba(250,247,240,.55)}
+.bub.loud .bt path{fill:var(--red);stroke:var(--red)}
+.bub.prev{opacity:0}
+.scene.in .bub.prev{opacity:.3}
+.bub.prev .bk{background:transparent;border-style:dashed;border-width:2px}
+.bub.prev p{font-size:22px;color:rgba(28,26,23,.8)}
+.bub.prev .bt{display:none}
+
+/* 主角心声：无边框，偏斜，只有一道下划线 */
+.aside{position:absolute;z-index:23;opacity:0;transform:rotate(-1.8deg) translateY(10px);
+  transition:opacity .6s ease calc(var(--bd,1.5s)*var(--k,1)),transform .9s cubic-bezier(.22,1.06,.4,1) calc(var(--bd,1.5s)*var(--k,1))}
+.scene.in .aside{opacity:1;transform:rotate(-1.8deg) translateY(0)}
+.aside p{font-family:var(--hand);font-size:34px;line-height:1.5;color:rgba(28,26,23,.9)}
+.aside.flow{position:relative;margin-top:26px;transform:rotate(-1.6deg) translateY(9px)}
+.scene.in .aside.flow{transform:rotate(-1.6deg) translateY(0)}
+.aside .who{display:block;font-family:var(--sans);font-size:18px;letter-spacing:.2em;
+  color:rgba(28,26,23,.55);margin-bottom:8px}
+
+/* ================= 人物骨架微动 ================= */
+.fig{transform-box:fill-box}
+.fig .brth{transform-box:fill-box;transform-origin:50% 100%;
+  animation:brth 5.6s ease-in-out infinite}
+@keyframes brth{0%,100%{transform:translateY(0) scaleY(1)}46%{transform:translateY(-1.5px) scaleY(1.008)}}
+.fig .head{transform-box:fill-box;transform-origin:50% 92%;
+  animation:hdsway 12s ease-in-out infinite}
+@keyframes hdsway{0%,100%{transform:rotate(-.7deg)}54%{transform:rotate(1deg)}}
+.fig .mouth{transform-box:fill-box;transform-origin:50% 50%;
+  animation:talk 3.9s cubic-bezier(.4,0,.5,1) infinite}
+@keyframes talk{0%,100%{transform:scaleY(.22)}9%{transform:scaleY(.95)}21%{transform:scaleY(.34)}
+  34%{transform:scaleY(1)}47%{transform:scaleY(.28)}59%{transform:scaleY(.86)}
+  73%{transform:scaleY(.26)}86%{transform:scaleY(.72)}}
+/* 抬头：先沉肩，再抬，末了留一点余势 */
+.a-lift{transform-box:fill-box;transform-origin:50% 100%;
+  animation:lift 11s cubic-bezier(.36,0,.2,1) 1.6s both}
+@keyframes lift{0%{transform:rotate(0) translateY(0)}
+  16%{transform:rotate(2.2deg) translateY(2.4px)}
+  38%{transform:rotate(-3.6deg) translateY(-3.2px)}
+  52%{transform:rotate(-3deg) translateY(-2.4px)}
+  100%{transform:rotate(-3.1deg) translateY(-2.6px)}}
+/* 翻页：手先停在纸上，再挑起来 */
+.a-page{transform-box:fill-box;transform-origin:88% 80%;
+  animation:page 12s cubic-bezier(.34,0,.24,1) 2.2s both}
+@keyframes page{0%,10%{transform:rotate(0) translate(0,0)}
+  24%{transform:rotate(-13deg) translate(-6px,-4px)}
+  40%{transform:rotate(-4deg) translate(-2px,0)}
+  62%{transform:rotate(-9deg) translate(-4px,-2px)}
+  100%{transform:rotate(-5deg) translate(-2px,-1px)}}
+/* 抬起手臂做手势 */
+.a-raise{transform-box:fill-box;transform-origin:8% 6%;
+  animation:raise 13s cubic-bezier(.3,0,.22,1) 2s both}
+@keyframes raise{0%,8%{transform:rotate(0)}
+  22%{transform:rotate(-16deg)}
+  34%{transform:rotate(-9deg)}
+  58%{transform:rotate(-21deg)}
+  72%{transform:rotate(-12deg)}
+  100%{transform:rotate(-15deg)}}
+/* 推石头：节奏与滚石同步 */
+.a-push{transform-box:fill-box;transform-origin:20% 82%;
+  animation:push 9s cubic-bezier(.42,0,.4,1) infinite}
+@keyframes push{0%,100%{transform:translate(0,0) rotate(0)}
+  18%{transform:translate(-5px,2px) rotate(-1.6deg)}
+  42%{transform:translate(4px,-2px) rotate(1.2deg)}
+  64%{transform:translate(1px,0) rotate(.4deg)}}
+/* 转身朝窗，停在转身后的姿态（不归零） */
+.a-turn{transform-box:fill-box;transform-origin:50% 100%;
+  animation:turnw 10s cubic-bezier(.32,0,.24,1) 2.4s both}
+@keyframes turnw{0%{transform:rotate(0) translateX(0)}
+  18%{transform:rotate(2deg) translateX(3px)}
+  64%{transform:rotate(-13deg) translateX(-12px)}
+  82%{transform:rotate(-11deg) translateX(-10px)}
+  100%{transform:rotate(-12deg) translateX(-11px)}}
+/* 走路：两腿交替，重心上下 */
+.legF{transform-box:fill-box;transform-origin:50% 4%;
+  animation:legF 2.6s ease-in-out infinite}
+.legB{transform-box:fill-box;transform-origin:50% 4%;
+  animation:legB 2.6s ease-in-out infinite}
+@keyframes legF{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-9deg)}}
+@keyframes legB{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(9deg)}}
+.walk{transform-box:fill-box;transform-origin:50% 100%;
+  animation:walk 1.3s ease-in-out infinite}
+@keyframes walk{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+/* 门开 */
+.a-open{transform-box:fill-box;transform-origin:100% 50%;
+  animation:open 12s cubic-bezier(.26,0,.2,1) 2.6s both}
+@keyframes open{0%{transform:rotate(0)}30%{transform:rotate(-3deg)}
+  72%{transform:rotate(-17deg)}86%{transform:rotate(-15deg)}
+  100%{transform:rotate(-16deg)}}
+/* 浮尘 */
+.dust{animation:float 17s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0);opacity:.35}
+  50%{transform:translate(7px,-15px);opacity:.75}}
+</style>
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+
+<!-- 共用图案与渐变 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <pattern id="hh" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="8" stroke="#1C1A17" stroke-width=".85"/></pattern>
+  <pattern id="hd" width="4.6" height="4.6" patternUnits="userSpaceOnUse" patternTransform="rotate(-34)">
+    <line x1="0" y1="0" x2="0" y2="4.6" stroke="#1C1A17" stroke-width="1"/></pattern>
+  <pattern id="hx" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <line x1="0" y1="0" x2="0" y2="7" stroke="#1C1A17" stroke-width=".8"/>
+    <line x1="0" y1="0" x2="7" y2="0" stroke="#1C1A17" stroke-width=".8"/></pattern>
+  <pattern id="ho" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+    <line x1="0" y1="0" x2="0" y2="7" stroke="#B07A3C" stroke-width="1.05"/></pattern>
+  <pattern id="hb" width="6.4" height="6.4" patternUnits="userSpaceOnUse" patternTransform="rotate(-52)">
+    <line x1="0" y1="0" x2="0" y2="6.4" stroke="#2B4C7E" stroke-width="1.05"/></pattern>
+  <pattern id="hy" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(64)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#C9A227" stroke-width="1.1"/></pattern>
+  <pattern id="hr" width="5.4" height="5.4" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+    <line x1="0" y1="0" x2="0" y2="5.4" stroke="#A63A2E" stroke-width="1"/></pattern>
+  <radialGradient id="lampg" cx="50%" cy="50%" r="50%">    <stop offset="0%" stop-color="#FFF6E2" stop-opacity=".95"/>
+    <stop offset="55%" stop-color="#FFF3DC" stop-opacity=".40"/>
+    <stop offset="100%" stop-color="#FFF3DC" stop-opacity="0"/>
+  </radialGradient>
+  <clipPath id="pf"><rect x="74" y="80" width="376" height="478"/></clipPath>
+  <filter id="rough" x="-18%" y="-18%" width="136%" height="136%">
+    <feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="4.6" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+<!-- ================= 01 深夜书桌 ================= -->
+<section class="scene" data-dur="12" style="--k:.55">
+  <div class="page">
+    <div class="wash blue mul" style="opacity:.42;left:392px;width:1208px"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>开 场</span></div>
+    <div class="ghost" style="left:-44px;top:626px;font-size:250px;transform:rotate(-2.5deg);color:rgba(28,26,23,.075)">夜</div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>00</b><i></i><span>开场 · 他坐下</span></div>
+      <div class="hw-wrap ln" style="--d:.5s;font-size:96px;line-height:1.14">
+        <span class="hw ink-write">悲观不是<span class="circ">丧<svg viewBox="0 0 240 140" style="width:1.5em;height:1.3em" aria-hidden="true"><path class="w1" d="M116 20C60 12 22 38 20 70c-2 34 44 52 106 48 56-4 94-26 92-54-2-26-44-46-102-44"/><path class="w2" d="M128 26C72 20 30 44 30 72c0 30 44 44 96 42"/></svg></span></span>
+        <svg class="uline" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M4 13C96 6 208 15 300 7S372 11 396 4"/>
+          <path class="b" d="M18 17C120 12 226 17 332 11"/>
+        </svg>
+      </div>
+      <p class="lead ln" style="--d:1.7s">凌晨三点，他坐下。灯还亮着，书摊开，<span class="hl">没有人读</span>。</p>
+      <p class="fine ln" style="--d:2.1s">钟停在三点。窗外全黑。</p>
+      <div class="aside flow" style="--d:2.7s;--bd:2.7s">
+        <span class="who">他的心声</span>
+        <p>如果一切都没有意义，<br>我为什么还在撑。</p>
+        <svg class="asl" viewBox="0 0 420 14" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M3 8C120 3 250 11 418 5"/><path class="b" d="M12 11C130 7 262 12 408 9"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.18" data-step="0.05" aria-hidden="true">
+        <!-- 窗与夜 -->
+        <path class="s" d="M556 30h300v292H556z"/>
+        <path class="s thin" d="M564 38h284v276H564z"/>
+        <path class="sh hd" d="M564 38h284v276H564z"/>
+        <path class="s" d="M706 38v276M564 176h284"/>
+        <circle class="s faint" cx="628" cy="92" r="2"/>
+        <circle class="s faint" cx="822" cy="118" r="1.6"/>
+        <circle class="s faint" cx="672" cy="248" r="1.4"/>
+        <!-- 墙：斜向排线，密度不均 -->
+        <path class="sh soft" d="M0 0h556v524H0z" fill="url(#hd)"/>
+        <path class="s faint" d="M0 34h556M0 82h556M0 130h556M0 178h556M0 226h556M0 274h556M0 322h556M0 370h556M0 418h556M0 466h556M0 514h556"/>
+        <path class="s faint" d="M34 0L8 524M104 0L86 524M174 0L164 524M244 0L242 524M314 0L320 524M384 0L398 524M454 0L476 524M524 0L554 524"/>
+        <!-- 窗格分格、玻璃反光、窗外一点天光 -->
+        <path class="s thin" d="M564 133h284M564 248h284M635 38v276M777 38v276"/>
+        <path class="s faint" d="M590 316L668 42M738 316L816 42"/>
+        <path class="s faint" d="M596 112l44-30M760 96l36-24M580 214l38-26"/>
+        <path class="sh soft" d="M712 38h136v276H712z" fill="url(#hb)"/>
+        <path class="s faint" d="M760 66l-38 26M812 128l-34 24"/>
+        <!-- 钟 -->
+        <circle class="s" cx="130" cy="116" r="50"/>
+        <circle class="s thin" cx="130" cy="116" r="43"/>
+        <path class="s" d="M130 116V78"/>
+        <path class="s" d="M130 116l34 12"/>
+        <path class="s faint" d="M130 66v-7M130 166v7M80 116h-7M180 116h7"/>
+        <!-- 灯晕 -->
+        <ellipse class="glow" cx="700" cy="452" rx="196" ry="138"/>
+        <!-- 椅背（在人物之后） -->
+        <path class="s thin" d="M306 524V406c0-12 10-20 22-20h124c12 0 22 8 22 20v118"/>
+        <path class="s faint" d="M300 470h184M322 406v118M478 406v118"/>
+        <!-- 人：背影 / 坐姿。头 → 颈 → 斜肩 → 背，双臂垂在体侧 -->
+        <g class="fig">
+        <!-- 头（后脑，发用排线，左侧留亮） -->
+        <g class="head a-lift">
+        <ellipse class="sh hx" cx="400" cy="288" rx="29" ry="33"/>
+        <ellipse class="s" cx="400" cy="288" rx="29" ry="33"/>
+        <path class="s" d="M373 280c7-14 17-21 27-21s20 7 27 21"/>
+        <path class="s thin" d="M400 259c-8 3-13 9-15 17M400 259c8 3 13 9 15 17"/>
+        <path class="s thin" d="M376 302c7 10 15 15 24 15s17-5 24-15"/>
+        <path class="s faint" d="M383 267c6-5 11-8 17-9M417 267c-6-5-11-8-17-9"/>
+        <path class="s thin" d="M370 288c-4 7-4 14 0 21M430 288c4 7 4 14 0 21"/>
+        </g>
+        <g class="brth">
+        <!-- 颈 -->
+        <path class="s" d="M386 316v34M414 316v34"/>
+        <!-- 背（斜肩：颈根 → 肩斜 → 肩角） -->
+        <path class="sh hh" d="M400 350 370 358 344 370Q330 378 330 392L328 470 330 524 470 524 472 470 470 392Q470 378 456 370L430 358Z"/>
+        <path class="sh hd" d="M328 440 330 524 470 524 472 440Z"/>
+        <path class="s" d="M400 350 370 358 344 370Q330 378 330 392L328 470 330 524 470 524 472 470 470 392Q470 378 456 370L430 358Z"/>
+        <!-- 衣领与袖缝 -->
+        <path class="s" d="M386 348Q400 360 414 348"/>
+        <path class="s faint" d="M388 356Q400 366 412 356"/>
+        <path class="s thin" d="M350 378L354 524M450 378L446 524"/>
+        <path class="s faint" d="M400 360v164"/>
+        <path class="s faint" d="M348 452c12-6 26-8 38-5M452 452c-12-6-26-8-38-5"/>
+        </g>
+        </g>
+        <!-- 桌面：先以纸色遮住人物下半身，再画桌沿与桌腿 -->
+        <rect x="0" y="524" width="880" height="90" fill="var(--paper)"/>
+        <path class="s" d="M16 524h848"/>
+        <path class="s" d="M24 556h832"/>
+        <path class="s thin" d="M24 524v32M856 524v32"/>
+        <path class="s faint" d="M60 538h760M104 546h672"/>
+        <path class="s thin" d="M96 556v96M784 556v96"/>
+        <path class="s faint" d="M82 654h30M768 654h30"/>
+        <!-- 台灯（坐在桌沿上） -->
+        <path class="s" d="M676 524c0 8 16 12 36 12s36-4 36-12"/>
+        <path class="s" d="M712 524V396"/>
+        <path class="s" d="M676 396h72l-14-42h-44z"/>
+        <path class="s faint" d="M688 398l-46 116M706 398l-14 118M730 398l14 118M744 398l30 112"/>
+        <!-- 书堆 -->
+        <path class="s" d="M494 508h150v14H494z"/>
+        <path class="s" d="M506 494h158v14H506z"/>
+        <path class="s" d="M488 480h142v14H488z"/>
+        <path class="s" d="M502 466h96v14h-96z"/>
+        <path class="s faint" d="M528 480v14M568 480v14M548 466v-14"/>
+        <!-- 桌上的朱红茶缸（实心色块） -->
+        <path d="M180 470h58v34c0 9-13 14-29 14s-29-5-29-14z" fill="#A63A2E" opacity=".92"/>
+        <path class="s" d="M180 470h58v34c0 9-13 14-29 14s-29-5-29-14z"/>
+        <ellipse class="s" cx="209" cy="470" rx="29" ry="7"/>
+        <path class="s thin" d="M238 480c12 2 16 8 16 14s-6 11-16 12"/>
+        <!-- 地板：透视排线 + 木纹 -->
+        <path class="s thin" d="M16 654h848"/>
+        <path class="s faint" d="M16 674h848"/>
+        <path class="s faint" d="M130 654L54 700M290 654L246 700M450 654L436 700M610 654L630 700M770 654L818 700"/>
+        <path class="s faint" d="M104 674h84M300 674h108M516 674h96M700 674h104"/>
+        <!-- 窗光落在地上：梯形光斑 -->
+        <path d="M564 314 676 314 392 700 96 700Z" fill="#2B4C7E" opacity=".1"/>
+        <path d="M564 314 676 314 392 700 96 700Z" fill="url(#hb)" opacity=".15"/>
+        <!-- 空气里的浮尘 -->
+        <circle class="s faint dust" cx="470" cy="386" r="2.4" style="animation-delay:-2s"/>
+        <circle class="s faint dust" cx="536" cy="466" r="1.9" style="animation-delay:-7s"/>
+        <circle class="s faint dust" cx="628" cy="356" r="1.6" style="animation-delay:-11s"/>
+        <circle class="s faint dust" cx="386" cy="470" r="2.1" style="animation-delay:-4.5s"/>
+        <circle class="s faint dust" cx="700" cy="396" r="1.7" style="animation-delay:-9s"/>
+        <!-- 套色：夜（靛） / 灯与木（赭） -->
+        <g class="cl r" style="--cd:1.5s"><rect x="564" y="38" width="284" height="276" fill="#2B4C7E" opacity=".5"/></g>
+        <g class="cl b2" style="--cd:2.3s">
+          <rect x="24" y="524" width="832" height="32" fill="#B07A3C" opacity=".42"/>
+          <path d="M676 396h72l-14-42h-44z" fill="#C9A227" opacity=".62"/>
+          <path d="M400 350 370 358 344 370Q330 378 330 392L328 470 330 524 470 524 472 470 470 392Q470 378 456 370L430 358Z" fill="#2B4C7E" opacity=".24"/>
+          <path d="M596 552h176v10H596z" fill="#A63A2E" opacity=".9"/>
+        </g>
+        <g class="cl b3" style="--cd:2.9s">
+          <ellipse cx="400" cy="288" rx="29" ry="33" fill="#2B4C7E" opacity=".26"/>
+          <path d="M494 508h150v14H494z" fill="#A63A2E" opacity=".95"/>
+          <path d="M506 494h158v14H506z" fill="#2B4C7E" opacity=".24"/>
+          <path d="M488 480h142v14H488z" fill="#B07A3C" opacity=".38"/>
+          <path d="M502 466h96v14h-96z" fill="#C9A227" opacity=".30"/>
+        </g>
+      </svg>
+    </div>
+    <div class="foot"><span>卷一</span><span>01</span></div>
+  </div>
+</section>
+
+<!-- ================= 02 药方与书 ================= -->
+<section class="scene" data-dur="12" style="--k:.50">
+  <div class="page">
+    <div class="wash ochre mul" style="opacity:.34"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>澄 清</span></div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>01</b><i></i><span>澄清 · 他翻书</span></div>
+      <h2 class="title ln" style="--d:.35s">两样<br>东西</h2>
+      <p class="lead ln" style="--d:1s">桌上摊着两样：一张<span class="hl blue">药方</span>，一本书。<br>一个治情绪，一个<span class="circ">问世界<svg viewBox="0 0 300 140" style="width:3.15em;height:1.32em" aria-hidden="true"><path class="w1" d="M150 16C74 10 22 36 20 70c-2 36 56 56 132 52 66-4 108-24 106-52-2-26-52-50-140-52"/><path class="w2" d="M162 24C86 18 30 42 30 72c0 28 52 42 116 40"/></svg></span>。</p>
+      <p class="fine ln" style="--d:1.6s">“我今天很难过”<span class="strike">等于</span><span class="fix">不等于</span>“我看透了世界”。</p>
+      <p class="key ln" style="--d:2.2s">前者会走，<br>后者要<span class="jump">论证</span>。</p>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.2" data-step="0.055" aria-hidden="true">
+        <!-- 桌面（俯视斜面） -->
+        <path class="s" d="M40 210h800"/>
+        <path class="s thin" d="M40 210L-20 700M840 210l60 490"/>
+        <path class="s faint" d="M16 252h828M-6 610h872"/>
+        <!-- 药方：墨黑实块压赭石，反白手写 -->
+        <g class="rx" style="--ink:#FAF7F0">
+          <path d="M96 300h248v236H96z" fill="#1C1A17"/>
+          <path class="s thin" d="M120 336h150M120 366h200M120 396h170M120 426h196M120 456h120"/>
+          <path class="s" d="M148 512v-72"/>
+          <path class="s" d="M148 444c26-2 38 8 38 18s-12 20-38 18"/>
+          <path class="s" d="M196 516L148 426"/>
+          <path class="s thin" d="M206 486h38M206 500h24"/>
+          <path class="s thin" d="M300 320c14 10 14 26 0 36"/>
+        </g>
+        <path class="s faint" d="M318 316c20 14 20 36 0 50"/>
+        <!-- 书 -->
+        <path class="s" d="M500 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z"/>
+        <path class="s" d="M660 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z"/>
+        <path class="s thin" d="M500 362c52-15 108-15 160 0M500 404c52-15 108-15 160 0M500 446c52-15 108-15 160 0M500 488c52-15 108-15 160 0"/>
+        <path class="s thin" d="M660 362c52-15 108-15 160 0M660 404c52-15 108-15 160 0M660 446c52-15 108-15 160 0M660 488c52-15 108-15 160 0"/>
+        <path class="sh" d="M500 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z" fill="url(#hh)"/>
+        <path class="sh" d="M660 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z" fill="url(#hh)"/>
+        <!-- 左手：前臂 + 掌 + 四指 + 拇指 -->
+        <path class="s" d="M158 700c2-30 8-58 22-76"/>
+        <path class="s" d="M300 700c-8-28-18-52-30-70"/>
+        <path class="sh hh" d="M178 628c20-10 84-10 102 0l4 30c1 9-5 16-14 16h-82c-9 0-15-7-14-16z"/>
+        <path class="s" d="M178 628c20-10 84-10 102 0l4 30c1 9-5 16-14 16h-82c-9 0-15-7-14-16z"/>
+        <path class="s" d="M194 626v-34c0-6 4-10 9-10s9 4 9 10v32"/>
+        <path class="s" d="M218 621v-44c0-6 4-10 9-10s9 4 9 10v42"/>
+        <path class="s" d="M242 623v-36c0-6 4-10 9-10s9 4 9 10v34"/>
+        <path class="s" d="M264 630v-22c0-6 3-9 8-9s8 3 8 9v20"/>
+        <path class="s thin" d="M178 642c-11-4-15-15-13-26"/>
+        <path class="s faint" d="M206 658c10 4 20 4 30 0"/>
+        <path class="s faint" d="M212 636v14M236 634v16"/>
+        <!-- 右手：翻页（先停住，再挑起） -->
+        <g class="a-page">
+        <path class="s" d="M598 700c4-30 10-58 22-76"/>
+        <path class="s" d="M738 700c-8-28-18-52-30-70"/>
+        <path class="sh hh" d="M616 628c20-10 84-10 102 0l4 30c1 9-5 16-14 16h-82c-9 0-15-7-14-16z"/>
+        <path class="s" d="M616 628c20-10 84-10 102 0l4 30c1 9-5 16-14 16h-82c-9 0-15-7-14-16z"/>
+        <path class="s" d="M632 626v-34c0-6 4-10 9-10s9 4 9 10v32"/>
+        <path class="s" d="M656 621v-44c0-6 4-10 9-10s9 4 9 10v42"/>
+        <path class="s" d="M680 623v-36c0-6 4-10 9-10s9 4 9 10v34"/>
+        <path class="s" d="M702 630v-22c0-6 3-9 8-9s8 3 8 9v20"/>
+        <path class="s thin" d="M718 642c11-4 15-15 13-26"/>
+        <path class="s faint" d="M644 658c10 4 20 4 30 0"/>
+        <path class="s faint" d="M650 636v14M674 634v16"/>
+        </g>
+        <!-- 朱红：印章 / 粗笔分隔 -->
+        <rect x="272" y="470" width="52" height="52" fill="#A63A2E" opacity=".92"/>
+        <path d="M284 482h28M284 491h28M284 500h28M292 509h14" stroke="#FAF7F0" stroke-width="3.4" fill="none" opacity=".86"/>
+        <path class="s swash" d="M446 262v334"/>
+        <!-- 手绘不等号 -->
+        <path class="s red" d="M392 374l94-4M392 406l94-4M404 434l76-96" style="--sd:.7s"/>
+        <!-- 套色 -->
+        <g class="cl" style="--cd:1.7s">
+          <path d="M96 300h248v236H96z" fill="#B07A3C" opacity=".30"/>
+          <path d="M320 300h24v236h-24z" fill="#C9A227" opacity=".24"/>
+          <path d="M446 262h18v334h-18z" fill="#A63A2E" opacity=".9"/>
+        </g>
+        <g class="cl b2 r" style="--cd:2.5s">
+          <path d="M500 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z" fill="#2B4C7E" opacity=".20"/>
+          <path d="M660 316c52-16 108-16 160 0v220c-52-16-108-16-160 0z" fill="#2B4C7E" opacity=".20"/>
+        </g>
+      </svg>
+    </div>
+    <div class="foot"><span>卷一</span><span>02</span></div>
+  </div>
+</section>
+
+<!-- ================= 03 叔本华 ================= -->
+<section class="scene dark" data-dur="16" style="--k:.57">
+  <div class="page">
+    <div class="wash blue"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>形 而 上</span></div>
+    <div class="ghost" style="left:1072px;top:330px;font-size:138px;letter-spacing:.06em">意志</div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>02</b><i></i><span>形而上学 · 有人打断他</span></div>
+      <h2 class="title ln" style="--d:.35s">表象<br>之下</h2>
+      <p class="lead ln" style="--d:1.4s">在表象之下，他放进<span class="circ">意志<svg viewBox="0 0 240 140" style="width:2.1em;height:1.34em" aria-hidden="true"><path class="w1" d="M116 20C60 12 22 38 20 70c-2 34 44 52 106 48 56-4 94-26 92-54-2-26-44-46-102-44"/><path class="w2" d="M128 26C72 20 30 44 30 72c0 30 44 44 96 42"/></svg></span>：<br>盲目、无尽、从不满足。</p>
+      <p class="fine ln" style="--d:2.1s">我们以为在追求这个或那个，<br>其实是它借我们的手，追求它自己。</p>
+      <p class="key ln" style="--d:2.6s">欲求未满则痛苦，<br>欲求满足则<span class="hl red">无聊</span>。</p>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.15" data-step="0.042" aria-hidden="true">
+        <!-- 肖像背景 -->
+        <path class="s thin" d="M70 76h384v486H70z"/>
+        <path class="sh" d="M70 76h384v486H70z" fill="url(#hh)"/>
+        <!-- 头（略转向杯侧的正面像） -->
+        <g clip-path="url(#pf)">
+        <path class="s" d="M256 122c36 0 66 34 68 78 1 24-6 48-19 64-12 15-30 26-49 26s-37-11-49-26c-13-16-20-40-19-64 2-44 32-78 68-78z"/>
+        <!-- 头发 -->
+        <path class="sh hd" d="M189 196c-4-46 26-80 67-80s71 34 67 80c-14-30-38-46-67-46s-53 16-67 46z"/>
+        <path class="s" d="M189 196c-4-46 26-80 67-80s71 34 67 80"/>
+        <path class="s thin" d="M193 190c14-26 36-42 63-42s49 16 63 42"/>
+        <path class="s thin" d="M189 196c-4 18-2 36 6 52M323 196c4 18 2 36-6 52"/>
+        <path class="s faint" d="M214 150c12-10 26-15 42-15M300 156c-10-8-22-13-34-14"/>
+        <!-- 五官 -->
+        <path class="s thin" d="M206 184c12-4 26-1 36 5M270 189c10-6 24-9 36-5"/>
+        <path class="s" d="M210 203c11-6 24-6 35 0M268 203c11-6 24-6 35 0"/>
+        <circle class="s" cx="227" cy="207" r="4.6"/>
+        <circle cx="227" cy="207" r="2.2" fill="#1C1A17" opacity=".85"/>
+        <circle class="s" cx="284" cy="207" r="4.6"/>
+        <circle cx="284" cy="207" r="2.2" fill="#1C1A17" opacity=".85"/>
+        <path class="s thin" d="M256 214v26M256 240c-5 1-9 4-10 8"/>
+        <path class="s" d="M240 266c10 2 22 2 32 0"/>
+        <ellipse class="mouth" cx="256" cy="268" rx="13" ry="3.4" fill="#1C1A17" opacity=".72"/>
+        <path class="s faint" d="M232 256c-4 8-4 14 0 18M280 256c4 8 4 14 0 18M244 280c8 4 16 4 24 0"/>
+        <path class="s thin" d="M186 216c-8-2-13 6-11 16 2 10 9 15 15 13"/>
+        <path class="s thin" d="M326 216c8-2 13 6 11 16-2 10-9 15-15 13"/>
+        <!-- 颈与领巾 -->
+        <path class="s" d="M228 288v40M286 288v40"/>
+        <path class="s" d="M224 328c12 8 22 12 32 12s20-4 32-12l10 34c-16 12-46 12-84 0z"/>
+        <!-- 肩与外套 -->
+        <path class="s" d="M120 558c4-96 22-158 56-182 26-18 52-26 80-26s54 8 80 26c34 24 52 86 56 182"/>
+        <path class="sh hd" d="M120 558c4-96 22-158 56-182 26-18 52-26 80-26v208z"/>
+        <path class="s" d="M212 372l-30 40 34 30M300 372l30 40-34 30"/>
+        <path class="s thin" d="M182 412l-6 44M330 412l6 44"/>
+        <path class="s thin" d="M256 448v110M204 430c-8 40-10 82-8 128M308 430c8 40 10 82 8 128"/>
+        <path class="s faint" d="M160 470c-6 26-8 54-6 84M352 470c6 26 8 54 6 84"/>
+        </g>
+        <!-- 侧桌与跌落的杯子 -->
+        <path class="s swash" d="M562 484h278"/>
+        <path class="s" d="M564 496h276"/>
+        <path class="s thin" d="M564 496v22h276v-22"/>
+        <path class="s thin" d="M604 518v88M800 518v88"/>
+        <!-- 酒杯 -->
+        <g class="fall">
+          <path d="M672 312h40l-6 42c-1 8-27 8-28 0z" fill="#A63A2E" opacity=".9"/>
+          <path class="sh hd" d="M662 300h60l-9 62c-1 9-39 9-42 0z"/>
+          <path class="s" d="M662 300h60l-9 62c-1 9-39 9-42 0z"/>
+          <path class="s thin" d="M664 316h56"/>
+          <path class="s thin" d="M666 336h52"/>
+          <path class="s" d="M692 362v20"/>
+          <path class="s" d="M674 382h36"/>
+          <path class="s thin" d="M722 304c10 6 16 18 16 32"/>
+          <circle class="s" cx="742" cy="428" r="4"/>
+          <circle class="s" cx="764" cy="446" r="2.6"/>
+          <circle class="s" cx="724" cy="452" r="2.2"/>
+        </g>
+        <!-- 套色：赭（像框） / 靛（衣） -->
+        <g clip-path="url(#pf)"><g class="cl d" style="--cd:1.6s">
+          <rect x="74" y="80" width="376" height="478" fill="#B07A3C" opacity=".22"/>
+          <path d="M120 558c4-96 22-158 56-182 26-18 52-26 80-26s54 8 80 26c34 24 52 86 56 182z" fill="#2B4C7E" opacity=".28"/>
+          <path d="M189 196c-4-46 26-80 67-80s71 34 67 80z" fill="#B07A3C" opacity=".30"/>
+        </g></g>
+        <g class="cl b2" style="--cd:2.4s">
+          <path d="M564 496h276v22H564z" fill="#B07A3C" opacity=".34"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bub" style="left:1080px;top:112px;width:412px;--bd:1.1s;--bo:4% 94%">
+      <div class="bk"></div>
+      <svg class="bt" viewBox="0 0 46 46" style="left:-27px;bottom:28px;width:48px;height:48px" aria-hidden="true"><path d="M40 6C24 10 9 20 3 35c13 1 26-4 36-13z"/></svg>
+      <div class="tx">
+        <p>世界是我的表象。</p>
+        <span class="bc">叔本华 ·《作为意志和表象的世界》§ 1</span>
+      </div>
+    </div>
+    <div class="foot"><span>卷一</span><span>03</span></div>
+  </div>
+</section>
+
+<!-- ================= 04 尼采 · 山脊与鹰 ================= -->
+<section class="scene" data-dur="15" style="--k:.58">
+  <div class="page">
+    <div class="wash ochre mul" style="opacity:.52"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>反 驳 一</span></div>
+    <div class="ghost" style="left:614px;top:88px;font-size:196px;letter-spacing:.02em">力</div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>03</b><i></i><span>反驳 · 尼采打断他</span></div>
+      <h2 class="title ln" style="--d:.35s">他拒绝<br>把疲惫<br>说成真理</h2>
+      <p class="lead ln" style="--d:1.5s">尼采把悲观分成两种：<br>一种出自<span class="hl">强健</span>，一种出自<span class="strike">清醒</span><span class="fix">衰败</span>。</p>
+      <p class="fine ln" style="--d:2.2s">前者看得清，还想肯定；<br>后者耗尽了，只想定罪。</p>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.2" data-step="0.045" aria-hidden="true">
+        <!-- 天与云 -->
+        <g class="cloud">
+          <path class="s thin" d="M92 148c18-14 44-14 60 0M176 132c16-12 40-12 54 2M120 186c22-16 52-16 72 2"/>
+        </g>
+        <g class="cloud" style="animation-duration:46s">
+          <path class="s faint" d="M560 96c20-14 48-14 66 0M636 78c18-12 42-12 58 2"/>
+        </g>
+        <!-- 鹰 -->
+        <g transform="translate(690,178)">
+          <g class="eagle">
+            <path class="s" d="M0 0c14-10 30-12 44-6M0 0c-14-10-30-12-44-6"/>
+            <path class="s thin" d="M14-3l16 10M-14-3l-16 10"/>
+            <path class="s" d="M0 0v12"/>
+          </g>
+          <g class="eagle" style="animation-duration:23s">
+            <path class="s faint" d="M0 0c10-7 22-8 32-4M0 0c-10-7-22-8-32-4"/>
+          </g>
+        </g>
+        <!-- 风线 -->
+        <path class="s faint" d="M120 262c60-12 120 10 180 0s120-16 180-4"/>
+        <path class="s faint" d="M180 300c54-10 108 8 162 0s108-14 162-4"/>
+        <!-- 山脊 -->
+        <path class="s" d="M28 520c74-8 122-58 194-62 58-3 88 32 148 28 66-4 114-54 182-52 76 2 126 42 220 50"/>
+        <path class="s thin" d="M28 520v180h844V484"/>
+        <path class="sh hd" d="M222 458c58-3 88 32 148 28 66-4 114-54 182-52 76 2 126 42 220 50v196H250z"/>
+        <path class="s faint" d="M120 560l-22 132M300 596l-14 96M470 560l10 132M640 592l-8 100M760 606l16 86"/>
+        <!-- 站立的人：红衣，抬起右臂 -->
+        <g class="fig">
+        <g class="brth">
+          <path class="s" d="M404 470v-96"/>
+          <g class="head">
+            <circle class="s" cx="404" cy="352" r="27"/>
+            <path class="s thin" d="M383 340c4-16 12-24 21-24s17 8 21 24"/>
+          </g>
+          <path class="s" d="M404 374c-24 6-34 26-36 48l-2 52M404 374c24 6 34 26 36 48l2 52"/>
+          <path class="s" d="M404 392c-16 14-24 34-26 52"/>
+          <g class="a-raise"><path class="s" d="M404 392c16 14 24 34 26 52"/></g>
+          <path class="s" d="M370 474h20M416 474h20"/>
+          <path class="s thin" d="M348 420l-14 34M456 420l14 34"/>
+          <path d="M404 374c-20 6-30 22-33 44l30 10 30-10c-3-22-13-38-27-44z" fill="#A63A2E" opacity=".62"/>
+          <path class="sh hd" d="M404 374c-20 6-30 22-33 44l30 10 30-10c-3-22-13-38-27-44z"/>
+        </g>
+        </g>
+        <!-- 套色 -->
+        <g class="cl" style="--cd:1.5s">
+          <rect x="0" y="0" width="880" height="520" fill="#C9A227" opacity=".28"/>
+          <rect x="0" y="0" width="880" height="520" fill="url(#hy)" opacity=".30"/>
+        </g>
+        <g class="cl b2 r" style="--cd:2.2s">
+          <path d="M222 458c58-3 88 32 148 28 66-4 114-54 182-52 76 2 126 42 220 50v196H250z" fill="#2B4C7E" opacity=".24"/>
+          <path d="M222 458c58-3 88 32 148 28 66-4 114-54 182-52 76 2 126 42 220 50v196H250z" fill="url(#hb)" opacity=".22"/>
+        </g>
+        <g class="cl b3 u" style="--cd:2.9s">
+          <path d="M28 520c74-8 122-58 194-62 58-3 88 32 148 28 66-4 114-54 182-52 76 2 126 42 220 50l3-14c-96-9-146-49-222-51-69-2-117 48-183 52-60 4-90-31-148-28-73 4-121 54-196 62z" fill="#B07A3C" opacity=".34"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="yr" style="left:88px;top:686px;font-size:100px">
+      <span style="--i:0">1</span><span style="--i:1">8</span><span style="--i:2">8</span><span style="--i:3">7</span>
+    </div>
+
+    <div class="bub" style="left:902px;top:190px;width:396px;--bd:1.4s;--bo:66% 100%">
+      <div class="bk"></div>
+      <svg class="bt" viewBox="0 0 60 44" style="left:58px;bottom:-30px;width:58px;height:42px" aria-hidden="true"><path d="M6 4c10 10 24 22 44 34-6-18-14-28-26-36z"/></svg>
+      <div class="tx">
+        <p>凡不能杀死我的，<br>使我更强大。</p>
+        <span class="bc">尼采 ·《偶像的黄昏》· 格言与箭 § 8</span>
+      </div>
+    </div>
+
+    <div class="shock" style="--shkd:8.6s;--shk:5.6s;--bs:420px">
+      <span class="big">深渊</span>
+      <span class="sub">《善恶的彼岸》§146</span>
+    </div>
+    <div class="foot"><span>卷二</span><span>04</span></div>
+  </div>
+</section>
+
+<!-- ================= 05 加缪 · 西西弗 ================= -->
+<section class="scene" data-dur="14" style="--k:.50">
+  <div class="page">
+    <div class="wash red mul r" style="opacity:.74;left:648px;width:952px"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>反 驳 二</span></div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>04</b><i></i><span>反驳 · 加缪接话</span></div>
+      <h2 class="title art ln" style="--d:.35s">荒诞不是<br>结论</h2>
+      <p class="lead ln" style="--d:1.4s">石头推上去，滚下来，再推上去。<br>他不回避这个循环，只问一句：</p>
+      <p class="key ln" style="--d:2s">人还能不能<br><span class="circ">清醒地站着<svg viewBox="0 0 420 140" style="width:5.1em;height:1.34em" aria-hidden="true"><path class="w1" d="M210 16C104 8 28 36 26 72c-2 38 84 58 188 52 94-6 156-26 152-54-4-28-74-50-206-52"/><path class="w2" d="M222 24C114 18 36 42 36 74c0 30 76 44 164 42"/></svg></span>。</p>
+      <p class="fine ln" style="--d:2.6s">《反抗者》大意：我反抗，故我们存在。</p>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.2" data-step="0.04" aria-hidden="true">
+        <!-- 太阳 -->
+        <circle cx="742" cy="126" r="38" fill="#A63A2E" opacity=".52"/>
+        <circle class="s" cx="742" cy="126" r="38"/>
+        <path class="s faint" d="M742 70v-18M742 200v18M686 126h-18M816 126h18M702 86l-13-13M795 179l13 13M782 86l13-13M689 179l-13 13"/>
+        <!-- 坡 -->
+        <path class="s" d="M30 640c120-34 220-118 330-176 110-58 220-118 344-146 56 40 120 150 176 382"/>
+        <path class="s thin" d="M30 640v60h844"/>
+        <path class="sh hd" d="M30 640c120-34 220-118 330-176 110-58 220-118 344-146 56 40 120 150 176 382H30Z"/>
+        <path class="s faint" d="M62 668c120-34 220-118 330-176 110-58 216-114 336-142"/>
+        <path class="s faint" d="M104 700c118-36 214-120 324-178 108-56 206-108 320-136"/>
+        <path class="s faint" d="M120 606l-40 94M250 566l-30 84M392 484l-18 76M520 402l-10 62"/>
+        <!-- 滚痕 -->
+        <circle class="s faint" cx="392" cy="424" r="2.2"/>
+        <circle class="s faint" cx="344" cy="452" r="2.2"/>
+        <circle class="s faint" cx="296" cy="480" r="2.2"/>
+        <circle class="s faint" cx="248" cy="508" r="2.2"/>
+        <circle class="s faint" cx="200" cy="536" r="2.2"/>
+        <circle class="s faint" cx="152" cy="564" r="2.2"/>
+        <circle class="s faint" cx="104" cy="592" r="2.2"/>
+        <!-- 朱红：滚回的轨迹 -->
+        <path class="s swash" d="M330 494c-42 36-72 80-96 136"/>
+        <path class="s swash" d="M236 610l-4 22 22-6"/>
+        <!-- 石（含套色，整体随滚动位移） -->
+        <g class="roll">
+          <circle cx="438" cy="392" r="46" fill="#2B4C7E" opacity=".22"/>
+          <circle cx="438" cy="392" r="46" fill="url(#hb)" opacity=".16"/>
+          <circle class="sh hd" cx="438" cy="392" r="46"/>
+          <circle class="s" cx="438" cy="392" r="46"/>
+          <path class="s thin" d="M404 366c10-8 26-8 36 2M412 404c12 8 28 8 40-2M430 350l6 10M470 400l-8 6"/>
+        </g>
+        <!-- 人（西西弗：前倾，双臂抵石上推，后腿蹬直） -->
+        <g class="a-push">
+          <circle class="s" cx="342" cy="378" r="20"/>
+          <path class="sh hx" d="M325 375c2-11 9-18 17-18s15 7 17 18z"/>
+          <path class="s thin" d="M334 390c5 5 12 5 17 0"/>
+          <ellipse class="mouth" cx="342" cy="391" rx="7" ry="2.2" fill="#1C1A17" opacity=".7"/>
+          <path class="s thin" d="M336 396l-8 10M352 396l2 12"/>
+          <path class="sh hh" d="M312 398c10-4 22 2 28 14-4 20-18 34-44 46-12 4-24 4-32 0-2-10 4-20 12-28 12-12 24-24 36-32z"/>
+          <path class="s" d="M312 398c10-4 22 2 28 14-4 20-18 34-44 46-12 4-24 4-32 0-2-10 4-20 12-28 12-12 24-24 36-32z"/>
+          <path class="s faint" d="M300 410c8 12 14 24 18 38M320 402c6 12 10 24 12 36"/>
+          <!-- 双臂撑向石头 -->
+          <path class="s" d="M318 402c22-8 48-10 74-6"/>
+          <path class="s thin" d="M314 414c22-4 50-2 78 4"/>
+          <path class="s" d="M320 420c22 4 46 10 70 18"/>
+          <!-- 腿：后腿蹬直，前腿屈膝 -->
+          <path class="s" d="M268 456c-8 20-14 44-20 68"/>
+          <path class="s thin" d="M282 462c-8 20-14 42-20 64"/>
+          <path class="s" d="M282 462c10 8 18 16 24 26"/>
+          <path class="s thin" d="M272 470c10 6 18 14 24 24"/>
+          <path class="s" d="M236 518h24v9h-26z"/>
+          <path class="s" d="M316 482h24v9h-26z"/>
+          <path class="sh hd" d="M268 456c-8 20-14 44-20 68l-6 2-2-6c6-24 12-46 20-66z"/>
+        </g>
+        <!-- 套色 -->
+        <g class="cl" style="--cd:1.3s">
+          <circle cx="742" cy="126" r="38" fill="#C9A227" opacity=".55"/>
+          <path d="M30 640c120-34 220-118 330-176 110-58 220-118 344-146 56 40 120 150 176 382H30Z" fill="#B07A3C" opacity=".24"/>
+        </g>
+        <g class="cl b2 r" style="--cd:2s">
+          <path d="M30 640c120-34 220-118 330-176 110-58 220-118 344-146 56 40 120 150 176 382H30Z" fill="#2B4C7E" opacity=".10"/>
+        </g>
+        <g class="cl b3 u" style="--cd:2.7s">
+          <path d="M30 640c120-34 220-118 330-176 110-58 220-118 344-146 56 40 120 150 176 382H30Z" fill="url(#ho)" opacity=".34"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bub" style="left:764px;top:104px;width:512px;--bd:1.6s;--bo:44% 100%">
+      <div class="bk"></div>
+      <svg class="bt" viewBox="0 0 70 54" style="left:54px;bottom:-27px;width:66px;height:50px" aria-hidden="true"><path d="M4 4c14 12 30 26 46 44 0-20-4-34-14-46z"/></svg>
+      <div class="tx">
+        <p>必须想象<br>西西弗是幸福的。</p>
+        <span class="bc">加缪 ·《西西弗神话》· 结尾</span>
+      </div>
+    </div>
+    <div class="splat" style="--spd:23.2s"></div>
+    <div class="foot"><span>卷二</span><span>05</span></div>
+  </div>
+</section>
+
+<!-- ================= 06 斯多葛 · 清晨持纸 ================= -->
+<section class="scene" data-dur="16" style="--k:.62">
+  <div class="page">
+    <div class="wash yellow mul" style="opacity:.52"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>转 译</span></div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>05</b><i></i><span>转译 · 他走到窗前</span></div>
+      <h2 class="title ln" style="--d:.35s">先把最坏<br>放在桌上</h2>
+      <p class="lead ln" style="--d:1.5s">不是预言灾祸，而是每天先想一遍：<br>失去、失败、离别。</p>
+      <p class="key ln" style="--d:2.1s">想过了，<br>它就不再是<span class="jump">突然</span>的。</p>
+      <p class="fine ln" style="--d:2.7s">premeditatio malorum —— 预先设想不幸。<br>它训练的不是悲观，是站得住。</p>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.18" data-step="0.038" aria-hidden="true">
+        <!-- 窗 -->
+        <path class="s" d="M508 30h324v252H508z"/>
+        <path class="s thin" d="M516 38h308v236H516z"/>
+        <path class="s" d="M670 38v236M516 156h308"/>
+        <path class="s faint" d="M540 62h96M540 86h68M690 182h100M690 206h64"/>
+        <!-- 光 -->
+        <path class="s faint" d="M516 282L306 700M576 282L366 700M636 282L426 700M696 282L486 700M756 282L546 700M816 282L606 700"/>
+        <!-- 桌 -->
+        <path class="s" d="M40 560h604"/>
+        <path class="s thin" d="M40 560v18h604v-18"/>
+        <path class="s thin" d="M94 578v122M592 578v122"/>
+        <path class="s faint" d="M120 566c60 6 120 6 180 0M340 566c40 4 80 4 120 0"/>
+        <!-- 墨水瓶与笔 -->
+        <path d="M540 512h44l-6 46h-32z" fill="#A63A2E" opacity=".86"/>
+        <path class="s" d="M540 512h44l-6 46h-32z"/>
+        <path class="s thin" d="M548 502h28"/>
+        <path class="s" d="M586 510l40-76"/>
+        <path class="s thin" d="M624 428l16-22"/>
+        <!-- 人：站姿背影，右手把一张纸举进窗光；他正转向窗 -->
+        <g class="fig"><g class="a-turn"><g class="brth">
+        <!-- 头（后脑，发用排线） -->
+        <ellipse class="sh hx" cx="420" cy="234" rx="27" ry="31"/>
+        <ellipse class="s" cx="420" cy="234" rx="27" ry="31"/>
+        <path class="s" d="M394 226c7-13 16-20 26-20s19 7 26 20"/>
+        <path class="s thin" d="M420 207c-8 3-12 8-14 16M420 207c8 3 12 8 14 16"/>
+        <path class="s thin" d="M397 248c7 9 14 14 23 14s16-5 23-14"/>
+        <!-- 颈 -->
+        <path class="s" d="M408 264v24M432 264v24"/>
+        <path class="s faint" d="M408 266c8 4 16 4 24 0"/>
+        <!-- 躯干：斜肩，向桌沿收束 -->
+        <path class="sh hh" d="M420 292 398 300 380 312Q370 320 370 336L368 470 370 560 470 560 472 470 470 336Q470 320 460 312L442 300Z"/>
+        <path class="sh hd" d="M368 470 370 560 470 560 472 470Z"/>
+        <path class="s" d="M420 292 398 300 380 312Q370 320 370 336L368 470 370 560 470 560 472 470 470 336Q470 320 460 312L442 300Z"/>
+        <path class="s" d="M404 292Q420 304 436 292"/>
+        <path class="s faint" d="M420 300v260"/>
+        <path class="s thin" d="M386 320L384 560M454 320L456 560"/>
+        <!-- 左臂下垂 -->
+        <path class="s" d="M376 322c-16 32-22 72-20 112"/>
+        <path class="s thin" d="M394 334c-12 30-16 62-14 94"/>
+        <ellipse class="s" cx="354" cy="452" rx="12" ry="10"/>
+        <path class="s faint" d="M344 450c6 4 12 4 18 0"/>
+        <!-- 右臂举起（肘弯，把纸送到窗口） -->
+        <path class="s" d="M458 318c14 12 26 26 34 44"/>
+        <path class="s thin" d="M446 330c14 10 24 22 32 36"/>
+        <path class="s" d="M492 362l34-56"/>
+        <path class="s thin" d="M478 366l30-54"/>
+        <ellipse class="s" cx="534" cy="298" rx="11" ry="9" transform="rotate(-38 534 298)"/>
+        <!-- 手中的纸（举在窗光里） -->
+        <path class="sh hh" d="M520 190l182 44-28 118-182-44z"/>
+        <path class="s" d="M520 190l182 44-28 118-182-44z"/>
+        <path class="s thin" d="M530 212l96 24M534 234l72 18"/>
+        <text x="597" y="278" fill="#A63A2E" font-size="44" font-weight="600" font-family="'Noto Serif SC',serif" text-anchor="middle" transform="rotate(14 597 278)">最坏</text>
+        <ellipse class="s red" cx="597" cy="279" rx="59" ry="30" transform="rotate(14 597 278)" style="--sd:.9s"/>
+        </g></g></g>
+        <!-- 桌上书堆 -->
+        <path class="s" d="M48 556h116v-16H48z"/>
+        <path class="s" d="M56 540h112v-14H56z"/>
+        <path class="s" d="M50 526h104v-13H50z"/>
+        <path class="s thin" d="M60 528v12M150 528v12M62 542v12M158 542v12M56 528h104"/>
+        <!-- 套色 -->
+        <g class="cl r" style="--cd:1.2s">
+          <rect x="516" y="38" width="308" height="236" fill="#C9A227" opacity=".18"/>
+          <rect x="516" y="38" width="308" height="112" fill="#C9A227" opacity=".11"/>
+          <path d="M516 282L306 700h150l108-418z" fill="#C9A227" opacity=".13"/>
+          <path d="M40 542h420v18H40z" fill="#C9A227" opacity=".16"/>
+        </g>
+        <g class="cl b2" style="--cd:2s">
+          <path d="M40 560h604v18H40z" fill="#B07A3C" opacity=".4"/>
+          <path d="M420 292 398 300 380 312Q370 320 370 336L368 470 370 560 470 560 472 470 470 336Q470 320 460 312L442 300Z" fill="#B07A3C" opacity=".30"/>
+        </g>
+        <g class="cl b3 u" style="--cd:2.7s">
+          <path d="M524 196l134 34-22 92-134-34z" fill="#FAF7F0" opacity=".94"/>
+          <path d="M48 556h116v-16H48z" fill="#B07A3C" opacity=".22"/>
+        </g>
+      </svg>
+    </div>
+    <div class="bub" style="left:626px;top:142px;width:412px;--bd:1.5s;--bo:92% 78%">
+      <div class="bk"></div>
+      <svg class="bt" viewBox="0 0 52 52" style="right:-18px;bottom:26px;width:46px;height:46px" aria-hidden="true"><path d="M6 40C18 36 34 24 46 6c2 16-4 28-18 36z"/></svg>
+      <div class="tx">
+        <p>灾难从不按日程<br>到来，所以要<br>提前算进去。</p>
+        <span class="bc">塞涅卡 ·《道德书简》第 91 封<br>大意</span>
+      </div>
+    </div>
+    <div class="foot"><span>卷三</span><span>06</span></div>
+  </div>
+</section>
+
+<!-- ================= 07 推门而出 ================= -->
+<section class="scene" data-dur="12" style="--k:.50">
+  <div class="page">
+    <div class="wash ochre mul d" style="opacity:.58;top:676px;height:224px"></div>
+    <div class="runhead"><span>悲观主义 · 一部影像短片</span><span>落 点</span></div>
+    <div class="col">
+      <div class="ln eyebrow" style="--d:.1s"><b>06</b><i></i><span>落点 · 他合上书</span></div>
+      <div class="hw-wrap ln" style="--d:.55s;font-size:96px;line-height:1.14;margin-top:26px">
+        <span class="hw ink-write">先看<span class="circ">最坏<svg viewBox="0 0 240 140" aria-hidden="true"><path class="w1" style="transition-delay:2.95s" d="M124 16C58 8 16 40 18 72c2 34 46 54 108 50 58-4 100-24 98-54-2-28-46-48-104-52"/><path class="w2" d="M132 24C70 18 26 44 28 74c2 30 44 46 100 44"/></svg></span>。</span>
+        <svg class="uline" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M4 12C90 7 210 15 300 8S374 12 396 6"/>
+          <path class="b" d="M16 16C110 12 214 17 320 10"/>
+        </svg>
+      </div>
+      <p class="lead ln" style="--d:1.9s">想清楚它，然后推开门。<br>让人瘫住的不是坏消息，<br>是你不敢看它的那半分钟。</p>
+      <div class="aside flow" style="--d:2.9s;--bd:2.9s">
+        <span class="who">他的答案</span>
+        <p>我不再等它有意义。<br>我先站起来。</p>
+        <svg class="asl" viewBox="0 0 420 14" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M3 8C118 3 250 12 418 5"/><path class="b" d="M12 11C130 7 262 12 408 9"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="plate">
+      <svg viewBox="0 0 880 700" data-start="0.2" data-step="0.05" aria-hidden="true">
+        <!-- 门框 -->
+        <path class="s" d="M612 60h244v520H612z"/>
+        <path class="s thin" d="M632 80h204v500H632z"/>
+        <!-- 门板（向外开，还在继续推开） -->
+        <g class="a-open">
+        <path class="s" d="M632 580L470 520V140L632 80Z"/>
+        <path class="s thin" d="M486 156v330M556 122v392"/>
+        <rect x="480" y="296" width="26" height="88" fill="#A63A2E" opacity=".92"/>
+        <circle class="s" cx="498" cy="340" r="7"/>
+        <path class="s faint" d="M632 104L486 172M632 300L486 340M632 540L486 508"/>
+        </g>
+        <path class="s swash" d="M626 586h212"/>
+        <!-- 地面 -->
+        <path class="s" d="M24 580h832"/>
+        <path class="s thin" d="M24 598h832"/>
+        <path class="s faint" d="M132 598l-10 24M340 598l-8 24M548 598l-6 24M756 598l-4 24M876 598l6 24"/>
+        <!-- 影子拉长 -->
+        <path class="sh hx" d="M748 580L236 672h132l380-52z"/>
+        <path class="s faint" d="M748 580L236 672"/>
+        <!-- 人（推门而出，背对观者，迈着步子） -->
+        <g class="fig"><g class="walk">
+        <!-- 头（后脑，短发） -->
+        <ellipse class="s" cx="748" cy="264" rx="25" ry="29"/>
+        <path class="sh hx" d="M723 262c2-15 12-25 25-25s23 10 25 25z"/>
+        <path class="s" d="M724 260c3-14 12-23 24-23s21 9 24 23"/>
+        <path class="s thin" d="M748 238c-6 2-8 6-9 10M748 238c6 2 8 6 9 10"/>
+        <path class="s thin" d="M731 272c-3 5-3 10 0 15M765 272c3 5 3 10 0 15"/>
+        <!-- 颈 -->
+        <path class="s" d="M737 290v24M759 290v24"/>
+        <!-- 上衣：斜肩，衣摆过胯 -->
+        <path class="sh hh" d="M802 334c-16-14-34-22-54-22s-38 8-54 22c-6 46-6 100-4 146h116c2-46 2-100-4-146z"/>
+        <path class="sh hd" d="M802 334c-16-14-34-22-54-22v168h58c2-46 2-100-4-146z"/>
+        <path class="s" d="M802 334c-16-14-34-22-54-22s-38 8-54 22c-6 46-6 100-4 146h116c2-46 2-100-4-146z"/>
+        <path class="s" d="M735 314c8 8 18 12 25 12s17-4 25-12"/>
+        <path class="s faint" d="M748 316v164"/>
+        <path class="s thin" d="M726 340c4 44 3 96 0 140M770 340c-4 44-3 96 0 140"/>
+        <!-- 双臂 -->
+        <path class="s" d="M692 336c-12 40-16 84-14 128"/>
+        <path class="s thin" d="M710 342c-11 38-14 80-12 120"/>
+        <ellipse class="s" cx="676" cy="482" rx="11" ry="9"/>
+        <path class="s" d="M808 338c13 40 17 84 15 126"/>
+        <path class="s thin" d="M790 344c11 38 14 80 12 118"/>
+        <ellipse class="s" cx="825" cy="482" rx="11" ry="9"/>
+        <!-- 裤与鞋：两腿交替迈步 -->
+        <g class="legB">
+        <path class="s" d="M712 480l-4 96h30l4-96"/>
+        <path class="s thin" d="M740 480l-2 96"/>
+        <path class="s" d="M700 574h44v10h-46z"/>
+        </g>
+        <g class="legF">
+        <path class="s" d="M782 480l4 96h-30l-4-96"/>
+        <path class="s thin" d="M756 480l2 96"/>
+        <path class="s" d="M796 574h-44v10h46z"/>
+        </g>
+        </g></g>
+        <!-- 套色 -->
+        <g class="cl r" style="--cd:1.2s">
+          <rect x="632" y="80" width="204" height="500" fill="#C9A227" opacity=".62"/>
+          <path d="M836 80L470 598h366z" fill="#C9A227" opacity=".2"/>
+        </g>
+        <g class="cl b2" style="--cd:2s">
+          <path d="M632 580L470 520V140L632 80Z" fill="#B07A3C" opacity=".3"/>
+          <path d="M24 580h832v18H24z" fill="#B07A3C" opacity=".32"/>
+        </g>
+        <g class="cl b3 u" style="--cd:2.7s">
+          <path d="M748 580L236 672h132l380-52z" fill="#2B4C7E" opacity=".34"/>
+          <path d="M802 334c-16-14-34-22-54-22s-38 8-54 22c-6 46-6 100-4 146h116c2-46 2-100-4-146z" fill="#2B4C7E" opacity=".26"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="blackout" style="--bkd:5s"></div>
+    <div class="foot"><span>卷三</span><span>07</span></div>
+  </div>
+</section>
+
+<!-- ================= 08 收尾 · 空椅子与天亮 ================= -->
+<section class="scene" data-dur="8" style="--k:.46">
+  <div class="page">
+    <div class="wash red mul u" style="opacity:.62;top:782px;height:118px"></div>
+    <div class="ghost" style="left:14px;top:498px;font-size:264px;color:rgba(28,26,23,.055)">空</div>
+    <div class="coda" style="top:112px">
+      <h1 class="ln art" style="--d:.3s"><span>悲观主义</span><span>不是答案</span></h1>
+      <div class="hr red ln" style="--d:1.2s;width:240px"></div>
+      <p class="sub ln" style="--d:1.7s">它是一种姿势：先看清，再决定怎么活。</p>
+      <p class="tail ln" style="--d:2.6s">全片引文均可核对 · 详见 README</p>
+    </div>
+
+    <div class="plate wide">
+      <svg viewBox="0 0 1600 420" data-start="0.3" data-step="0.04" aria-hidden="true">
+        <!-- 地板 -->
+        <path class="s" d="M0 336h1600"/>
+        <path class="s faint" d="M96 336v34M320 336v34M544 336v34M768 336v34M992 336v34M1216 336v34"/>
+        <!-- 窗（天已亮） -->
+        <path class="s" d="M1046 70h236v220h-236z"/>
+        <path class="s thin" d="M1054 78h220v204h-220z"/>
+        <path class="s" d="M1164 78v204M1054 180h220"/>
+        <path class="s faint" d="M1062 226h204M1062 234h162M1064 116h54M1142 126h76M1076 152h40"/>
+        <path class="s faint" d="M1046 290L788 336M1096 290L868 336M1146 290L948 336M1196 290L1028 336M1246 290L1108 336M1282 290L1178 336"/>
+        <!-- 空椅（侧面观） -->
+        <path class="s" d="M596 348V150"/>
+        <path class="s thin" d="M632 344V156"/>
+        <path class="s" d="M596 150h38l-2 12h-36z"/>
+        <path class="s thin" d="M596 206h36v10h-36z"/>
+        <path class="s" d="M596 268h124v14H596z"/>
+        <path class="s" d="M704 282v66"/>
+        <path class="s thin" d="M690 280v60"/>
+        <path class="s thin" d="M598 324h100"/>
+        <path class="s faint" d="M588 350h132M604 358h104"/>
+        <!-- 椅上摊开的书 -->
+        <path class="sh hh" d="M612 258c22-8 48-8 70 0l-2 10c-21-7-45-7-66 0z"/>
+        <path class="s" d="M612 258c22-8 48-8 70 0l-2 10c-21-7-45-7-66 0z"/>
+        <path class="s thin" d="M647 255v13"/>
+        <path class="s faint" d="M620 259h20M620 264h18M660 259h18M660 264h16"/>
+        <!-- 套色 -->
+        <g class="cl r" style="--cd:1.1s">
+          <rect x="1054" y="78" width="220" height="204" fill="#C9A227" opacity=".2"/>
+          <rect x="1054" y="78" width="220" height="110" fill="#2B4C7E" opacity=".06"/>
+          <path d="M1054 282L808 336h230l60-84z" fill="#C9A227" opacity=".16"/>
+          <path d="M0 336h1600v10H0z" fill="#B07A3C" opacity=".2"/>
+        </g>
+        <g class="cl b2" style="--cd:1.9s">
+          <path d="M596 150h38l-2 12h-36z" fill="#B07A3C" opacity=".42"/>
+          <path d="M596 206h36v10h-36z" fill="#B07A3C" opacity=".3"/>
+          <path d="M596 268h124v14H596z" fill="#B07A3C" opacity=".36"/>
+        </g>
+        <g class="cl b3 u" style="--cd:2.6s">
+          <path d="M596 172h36v92h-36z" fill="#2B4C7E" opacity=".09"/>
+          <path d="M0 336h1600v14H0z" fill="#2B4C7E" opacity=".12"/>
+          <path d="M612 258c22-8 48-8 70 0l-2 10c-21-7-45-7-66 0z" fill="#A63A2E" opacity=".75"/>
+        </g>
+        <!-- 光里的浮尘 -->
+        <circle class="s faint dust" cx="900" cy="200" r="2.4" style="animation-delay:-3s"/>
+        <circle class="s faint dust" cx="960" cy="268" r="1.8" style="animation-delay:-8s"/>
+        <circle class="s faint dust" cx="848" cy="288" r="2" style="animation-delay:-12s"/>
+      </svg>
+    </div>
+    <div class="foot"><span>卷三</span><span>08</span></div>
+  </div>
+</section>
+
+<div class="grain"></div>
+<div class="vign"></div>
+<div class="breath"></div>
+<div id="turn"><div class="band"></div></div>
+
+<div class="hud">
+  <div class="hint" id="hint">点击画面暂停 · ← → 翻幕 · 首次点击开启配乐</div>
+  <button class="sound" id="sound" type="button" aria-label="声音开关">
+    <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.2v5.6h3.6L13 19V5L7.6 9.2H4z"/><path d="M16.4 9c1.1.9 1.7 2 1.7 3.2s-.6 2.3-1.7 3.2"/><path d="M19 6.4c1.9 1.6 2.9 3.5 2.9 5.8s-1 4.2-2.9 5.8"/></svg>
+    <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.2v5.6h3.6L13 19V5L7.6 9.2H4z"/><path d="M17 9.4l4.6 5.2M21.6 9.4L17 14.6"/></svg>
+  </button>
+  <div class="inkline"><span class="fill" id="fill"></span></div>
+</div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var stage = document.getElementById('stage');
+  var scenes = [].slice.call(document.querySelectorAll('.scene'));
+  var durs = scenes.map(function(s){ return parseFloat(s.dataset.dur) || 20; });
+  var starts = [], acc = 0;
+  durs.forEach(function(d){ starts.push(acc); acc += d; });
+  var TOTAL = acc;
+
+  /* ---------- 等比缩放 ---------- */
+  function fit(){
+    var k = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + k + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  /* ---------- 描边长度 + 逐笔延迟 ---------- */
+  function prep(){
+    [].forEach.call(document.querySelectorAll('.plate .s'), function(p){
+      var L = 0;
+      try { L = p.getTotalLength(); } catch(e){ L = 0; }
+      if(!L || !isFinite(L)) L = 1200;
+      p.style.setProperty('--len', L.toFixed(1));
+    });
+    [].forEach.call(document.querySelectorAll('.plate svg'), function(svg){
+      var step = parseFloat(svg.dataset.step) || 0.05;
+      var base = parseFloat(svg.dataset.start) || 0.22;
+      [].forEach.call(svg.querySelectorAll('.s'), function(el, i){
+        el.style.setProperty('--d', (base + i * step).toFixed(2) + 's');
+      });
+      [].forEach.call(svg.querySelectorAll('.sh'), function(el, i){
+        el.style.setProperty('--d', (base * 0.4 + 0.5 + i * 0.06).toFixed(2) + 's');
+      });
+    });
+    [].forEach.call(document.querySelectorAll('.uline path,.circ path,.asl path'), function(p){
+      var L = 0;
+      try { L = p.getTotalLength(); } catch(e){ L = 0; }
+      if(!L || !isFinite(L)) L = 100;
+      p.style.setProperty('--len', L.toFixed(1));
+    });
+  }
+
+  /* ---------- 手写拆字 ---------- */
+  function splitHand(){
+    [].forEach.call(document.querySelectorAll('.hw'), function(hw){
+      var walker = document.createTreeWalker(hw, NodeFilter.SHOW_TEXT, null, false);
+      var nodes = [], n;
+      while((n = walker.nextNode())) nodes.push(n);
+      nodes.forEach(function(node){
+        if(node.nodeType !== 3) return;
+        var frag = document.createDocumentFragment();
+        var chars = node.nodeValue.split('');
+        var idx = 0, total = chars.length;
+        chars.forEach(function(c){
+          if(c.trim() === ''){
+            frag.appendChild(document.createTextNode(c));
+            return;
+          }
+          var sp = document.createElement('span');
+          sp.className = 'ch';
+          sp.textContent = c;
+          var t = total > 1 ? idx / (total - 1) : 0;
+          var ease = Math.pow(Math.abs(t - 0.5) * 2, 2);
+          var gap = 0.05 + 0.11 * ease;
+          var dur = 0.19 + 0.07 * Math.sin(idx * 1.7);
+          sp.style.setProperty('--dl', (idx * gap).toFixed(3) + 's');
+          sp.style.setProperty('--dur', dur.toFixed(3) + 's');
+          frag.appendChild(sp);
+          idx++;
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    });
+  }
+
+  /* ---------- 进度墨线 ---------- */
+  var fillEl = document.getElementById('fill');
+  var hintEl = document.getElementById('hint');
+  var soundBtn = document.getElementById('sound');
+
+  /* ---------- 暂停 ---------- */
+  function setPlaying(v){
+    playing = v;
+    stage.classList.toggle('paused', !playing);
+  }
+  function togglePlay(){
+    if(t >= TOTAL - 0.02) return;
+    setPlaying(!playing);
+  }
+
+  /* ---------- 切换 ---------- */
+  var cur = -1, t = 0, playing = true, switching = false;
+  var turn = document.getElementById('turn');
+
+  function turnPage(){
+    turn.classList.remove('go');
+    void turn.offsetWidth;
+    turn.classList.add('go');
+  }
+
+  function goto(i, replay){
+    i = Math.max(0, Math.min(scenes.length - 1, i));
+    if(i === cur && !replay) return;
+    var prev = cur;
+    cur = i;
+    t = starts[i];
+    if(prev >= 0 && prev !== i){
+      var p = scenes[prev];
+      p.classList.remove('in');
+      p.classList.add('out');
+      setTimeout(function(){ p.classList.remove('out'); }, 520);
+      turnPage();
+    }
+    var s = scenes[i];
+    if(s.classList.contains('out')) s.classList.remove('out');
+    s.classList.remove('in');
+    void s.offsetWidth;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ s.classList.add('in'); });
+    });
+    if(prev >= 0 && prev !== i) Music.thud();
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch(e){}
+  }
+
+  /* ---------- 主循环 ---------- */
+  var last = 0;
+  function frame(ts){
+    if(!last) last = ts;
+    var dt = (ts - last) / 1000;
+    last = ts;
+    if(dt > 0.25) dt = 0.25;
+    if(playing){
+      t += dt;
+      if(t >= TOTAL){ t = TOTAL - 0.01; setPlaying(false); }
+      var i = scenes.length - 1;
+      for(var k = 0; k < scenes.length; k++){
+        if(t < starts[k] + durs[k]){ i = k; break; }
+      }
+      if(i !== cur) goto(i);
+    }
+    var base = starts[cur] || 0;
+    var p = Math.min(1, Math.max(0, (t - base) / (durs[cur] || 1)));
+    var global = Math.min(1, t / TOTAL);
+    fillEl.style.transform = 'scaleX(' + (global * 0.995).toFixed(5) + ')';
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- 键盘 ---------- */
+  document.addEventListener('keydown', function(e){
+    if(e.repeat){ return; }
+    if(e.code === 'Space'){
+      e.preventDefault();
+      togglePlay();
+      return;
+    }
+    if(e.key === 'ArrowRight'){ e.preventDefault(); goto(Math.min(scenes.length - 1, cur + 1), true); return; }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); goto(Math.max(0, cur - 1), true); return; }
+  });
+
+  /* ---------- 配乐：WebAudio 程序生成 ---------- */
+  var Music = (function(){
+    var ctx = null, master = null, droneGain = null, noiseBuf = null;
+    var started = false, muted = false, timer = null, nextBell = 0;
+    var scale = [146.83, 174.61, 196.00, 220.00, 261.63, 293.66, 349.23];
+
+    function now(){ return ctx ? ctx.currentTime : 0; }
+
+    function build(){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return false;
+      try { ctx = new AC(); } catch(e){ return false; }
+
+      master = ctx.createGain();
+      master.gain.value = 0.0001;
+      master.connect(ctx.destination);
+
+      /* 噪声：闷响与纸声的原料 */
+      var len = Math.floor(ctx.sampleRate * 1.4);
+      noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0), v = 0;
+      for(var i = 0; i < len; i++){
+        v = (v + 0.03 * (Math.random() * 2 - 1)) / 1.03;
+        d[i] = v * 3.4;
+      }
+
+      /* 低音持续音：两个正弦微差 + 一个次低音 */
+      droneGain = ctx.createGain();
+      droneGain.gain.value = 0.34;
+      var lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 430; lp.Q.value = 0.5;
+      droneGain.connect(lp); lp.connect(master);
+
+      [[55, 'sine', 0.52], [82.41, 'sine', 0.26], [110, 'triangle', 0.1]].forEach(function(v){
+        var o = ctx.createOscillator();
+        o.type = v[1];
+        o.frequency.value = v[0];
+        var g = ctx.createGain();
+        g.gain.value = v[2];
+        o.connect(g); g.connect(droneGain);
+        o.start();
+      });
+
+      /* 呼吸：18 秒一轮的极慢起伏 */
+      var lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.055;
+      var lg = ctx.createGain();
+      lg.gain.value = 0.2;
+      lfo.connect(lg); lg.connect(droneGain.gain);
+      lfo.start();
+      return true;
+    }
+
+    function bell(freq, when, amp){
+      var o = ctx.createOscillator(), o2 = ctx.createOscillator();
+      o.type = 'sine'; o.frequency.value = freq;
+      o2.type = 'sine'; o2.frequency.value = freq * 2.76;
+      var g = ctx.createGain(), g2 = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.exponentialRampToValueAtTime(amp, when + 0.014);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + 2.8);
+      g2.gain.setValueAtTime(0.0001, when);
+      g2.gain.exponentialRampToValueAtTime(amp * 0.22, when + 0.008);
+      g2.gain.exponentialRampToValueAtTime(0.0001, when + 0.5);
+      o.connect(g); g.connect(master);
+      o2.connect(g2); g2.connect(master);
+      o.start(when); o.stop(when + 2.9);
+      o2.start(when); o2.stop(when + 0.6);
+    }
+
+    function thud(){
+      if(!started || muted || !ctx) return;
+      var w = now() + 0.01;
+      var o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(76, w);
+      o.frequency.exponentialRampToValueAtTime(37, w + 0.6);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, w);
+      g.gain.exponentialRampToValueAtTime(0.5, w + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, w + 1.0);
+      o.connect(g); g.connect(master);
+      o.start(w); o.stop(w + 1.1);
+
+      var s = ctx.createBufferSource();
+      s.buffer = noiseBuf;
+      var bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 300; bp.Q.value = 0.8;
+      var ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.0001, w);
+      ng.gain.exponentialRampToValueAtTime(0.08, w + 0.012);
+      ng.gain.exponentialRampToValueAtTime(0.0001, w + 0.3);
+      s.connect(bp); bp.connect(ng); ng.connect(master);
+      s.start(w); s.stop(w + 0.4);
+    }
+
+    function tick(){
+      if(!ctx || muted) return;
+      var t0 = now();
+      if(t0 < nextBell) return;
+      bell(scale[Math.floor(Math.random() * scale.length)], t0 + 0.05,
+           0.09 + Math.random() * 0.05);
+      nextBell = t0 + 6.5 + Math.random() * 8.5;
+    }
+
+    function start(){
+      if(started) return;
+      if(!build()) return;
+      started = true;
+      try { if(ctx.state === 'suspended') ctx.resume(); } catch(e){}
+      var t0 = now();
+      master.gain.cancelScheduledValues(t0);
+      master.gain.setValueAtTime(0.0001, t0);
+      master.gain.exponentialRampToValueAtTime(muted ? 0.0001 : 0.16, t0 + 5);
+      nextBell = t0 + 3.4;
+      timer = setInterval(tick, 800);
+    }
+
+    function setMuted(m){
+      muted = m;
+      if(!ctx || !started) return;
+      var t0 = now();
+      master.gain.cancelScheduledValues(t0);
+      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), t0);
+      master.gain.exponentialRampToValueAtTime(muted ? 0.0001 : 0.16, t0 + 0.7);
+    }
+
+    return { start: start, thud: thud, setMuted: setMuted,
+             isMuted: function(){ return muted; } };
+  })();
+
+  /* ---------- 首次交互：开声 + 收提示 ---------- */
+  var touched = false;
+  function firstTouch(){
+    if(touched) return;
+    touched = true;
+    Music.start();
+    if(hintEl) hintEl.classList.remove('on');
+  }
+  window.addEventListener('pointerdown', firstTouch, { passive: true });
+  window.addEventListener('keydown', firstTouch, { passive: true });
+
+  document.addEventListener('click', function(e){
+    if(e.target.closest && e.target.closest('.sound')) return;
+    firstTouch();
+    togglePlay();
+  });
+
+  soundBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    firstTouch();
+    Music.setMuted(!Music.isMuted());
+    soundBtn.classList.toggle('mute', Music.isMuted());
+  });
+
+  if(hintEl){
+    setTimeout(function(){ hintEl.classList.add('on'); }, 900);
+    setTimeout(function(){ hintEl.classList.remove('on'); }, 11000);
+  }
+
+  /* ---------- 锚点 ---------- */
+  function fromHash(){
+    var n = parseInt((location.hash || '').replace('#', ''), 10);
+    if(n >= 1 && n <= scenes.length) return n - 1;
+    return 0;
+  }
+  window.addEventListener('hashchange', function(){
+    var i = fromHash();
+    if(i !== cur) goto(i, true);
+  });
+
+  /* ---------- 启动 ---------- */
+  prep();
+  splitHand();
+
+  window.addEventListener('load', function(){
+    prep();
+    requestAnimationFrame(frame);
+    goto(fromHash(), true);
+  });
+  if(document.readyState === 'complete'){
+    prep();
+    goto(fromHash(), true);
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>
